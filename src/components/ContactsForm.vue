@@ -1,5 +1,8 @@
 <template>
-  <form class="contact-form" @submit.prevent>
+  <button v-if="!selectedCreateBtn" @click="switchForm">
+    Create
+  </button>
+  <form class="contact-form" @submit.prevent v-else>
     <h2 class="form-title">Create contact</h2>
     <div class="required-field">
       <h3 class="field-title">Required fields</h3>
@@ -7,7 +10,7 @@
         <input type="text" placeholder="Name" v-model="contact.name" />
         <input type="text" placeholder="LastName" v-model="contact.lastname" />
       </div>
-      <button class="btn" @click="addContact">Add</button>
+      <button class="btn" @click="switchForm">Add</button>
     </div>
     <div class="custom-field">
       <h3 class="field-title">Custom field</h3>
@@ -25,16 +28,12 @@ export default {
         name: "",
         lastname: "",
       },
+      selectedCreateBtn: false,
     };
   },
   methods: {
-    addContact() {
-      this.contact.id = Date.now();
-      this.$emit("add", this.contact);
-      this.contact = {
-        name: "",
-        lastname: "",
-      };
+    switchForm() {
+      this.selectedCreateBtn = !this.selectedCreateBtn;
     },
   },
 };

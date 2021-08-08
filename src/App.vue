@@ -1,38 +1,10 @@
 <template>
-  <header>
-    <h1 class="header-title">Contacts</h1>
-  </header>
-  <contacts-form @add="addContact"></contacts-form>
-  <contacts-list :contacts="contacts"></contacts-list>
+  <div class="app" v-cloak>
+    <router-view></router-view>
+  </div>
 </template>
 
-<script>
-import ContactsList from "@/components/ContactsList";
-import ContactsForm from "@/components/ContactsForm";
-
-export default {
-  components: {
-    ContactsList,
-    ContactsForm,
-  },
-  data() {
-    return {
-      contacts: [
-        { id: 1, name: "Julia", lastname: "Bronson" },
-        { id: 2, name: "Mark", lastname: "Mans" },
-        { id: 3, name: "Deny", lastname: "Richt" },
-        { id: 4, name: "Zoya", lastname: "Rasmos" },
-        { id: 5, name: "Den", lastname: "Gonzales" },
-      ],
-    };
-  },
-  methods: {
-    addContact(contact) {
-      this.contacts.push(contact);
-    },
-  },
-};
-</script>
+<script></script>
 
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;900&display=swap");
@@ -60,10 +32,13 @@ input {
 }
 
 .header-title {
-  align-items: center;
   font-size: 25px;
   width: 95%;
   padding: 20px;
-  text-align: center;
+  text-align: left;
+  font-weight: bold;
+}
+[v-cloak] {
+  display: none;
 }
 </style>
