@@ -10,22 +10,35 @@
       <button class="btn" @click="$router.push(`/contact/${contact.id}`)">
         Details
       </button>
-      <button class="btn" @click="$store.dispatch('delContact', contact.id)">
+      <button class="btn" @click="show = true">
         Delete
       </button>
+      <pop-up
+        :show="show"
+        @yes="$store.dispatch('delContact', contact.id)"
+        @no="show = false"
+        >Do you really want to remove <strong>{{ contact.name }}</strong> from
+        your contacts?</pop-up
+      >
     </div>
   </div>
 </template>
 
 <script>
+import PopUp from "@/components/UI/PopUp.vue";
 export default {
+  components: {
+    PopUp,
+  },
   props: {
     contact: {
       type: Object,
       required: true,
     },
   },
-  methods: {},
+  data() {
+    return { show: false };
+  },
 };
 </script>
 

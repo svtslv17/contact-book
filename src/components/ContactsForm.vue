@@ -1,8 +1,15 @@
 <template>
+  <pop-up :show="show" @yes="deleteField(fieldSet)" @no="show = false"
+    >Remove field <strong>{{ fieldSet }}</strong
+    >?</pop-up
+  >
+  <pop-up :show="showEdit" @yes="returnFields()" @no="showEdit = false"
+    >Return fields?</pop-up
+  >
   <form class="contact-form" @submit.prevent>
     <div class="fields">
       <div v-if="resetBtns">
-        <button class="btn return-btn" @click="returnFields">Return</button>
+        <button class="btn return-btn" @click="showEdit = true">Return</button>
         <button
           class="btn back-btn"
           @click="returnLastChanges"
@@ -27,7 +34,7 @@
           <button
             class="btn del-btn"
             v-if="field[0] !== 'name'"
-            @click="deleteField(`${field[0]}`)"
+            @click="Confirmation(field[0])"
           >
             Delete
           </button>
@@ -51,8 +58,9 @@
 
 <script>
 import SubmitBtn from "@/components/UI/SubmitBtn.vue";
+import PopUp from "@/components/UI/PopUp.vue";
 export default {
-  components: { SubmitBtn },
+  components: { SubmitBtn, PopUp },
   props: {
     contact: {
       type: Object,
@@ -77,9 +85,16 @@ export default {
       customs: [],
       lastChangedField: "",
       firstFocusInput: false,
+      show: false,
+      fieldSet: "",
+      showEdit: false,
     };
   },
   methods: {
+    Confirmation(field) {
+      this.fieldSet = field;
+      this.show = true;
+    },
     delCustom(id) {
       this.customs.splice(id, 1);
     },
@@ -88,9 +103,12 @@ export default {
     },
     deleteField(fieldName) {
       delete this.newContact[fieldName];
+      this.fieldSet = "";
+      this.show = false;
     },
     returnFields() {
       this.newContact = Object.assign({}, this.contact);
+      this.showEdit = false;
     },
     returnLastChanges() {
       this.newContact[this.lastChangedField] = this.contact[
