@@ -3,6 +3,7 @@
     <contacts-form
       :contact="contact($route.params.id)"
       @saveContact="saveContact"
+      :resetBtns="true"
     ></contacts-form>
   </div>
 </template>

@@ -1,6 +1,16 @@
 <template>
   <form class="contact-form" @submit.prevent>
     <div class="fields">
+      <div v-if="resetBtns">
+        <button class="btn return-btn" @click="returnFields">Return</button>
+        <button
+          class="btn back-btn"
+          @click="returnLastChanges"
+          v-if="lastChangedField !== '' && firstFocusInput"
+        >
+          Step back
+        </button>
+      </div>
       <div
         class="fields__item"
         v-for="(field, idx) in Object.entries(newContact)"
@@ -12,6 +22,7 @@
             type="text"
             :placeholder="field[1]"
             v-model="newContact[`${field[0]}`]"
+            @input="firstFocusInput = true"
           />
           <button
             class="btn del-btn"
@@ -47,9 +58,15 @@ export default {
       type: Object,
       required: true,
     },
+    resetBtns: {
+      type: Boolean,
+      required: true,
+      default: true,
+    },
   },
   mounted() {
     this.newContact = Object.assign({}, this.contact);
+    this.lastChangedField = "";
   },
   data() {
     return {
@@ -58,6 +75,8 @@ export default {
         lastname: "",
       },
       customs: [],
+      lastChangedField: "",
+      firstFocusInput: false,
     };
   },
   methods: {
@@ -69,6 +88,14 @@ export default {
     },
     deleteField(fieldName) {
       delete this.newContact[fieldName];
+    },
+    returnFields() {
+      this.newContact = Object.assign({}, this.contact);
+    },
+    returnLastChanges() {
+      this.newContact[this.lastChangedField] = this.contact[
+        this.lastChangedField
+      ];
     },
     saveContact() {
       let savedContact = {};
@@ -90,12 +117,30 @@ export default {
       this.$emit("saveContact", savedContact);
     },
   },
+  computed: {
+    // watch the entire as a new object
+    computedNewContact: function() {
+      return Object.assign({}, this.newContact);
+    },
+  },
+  watch: {
+    computedNewContact: {
+      handler(newC, oldC) {
+        for (let field in oldC) {
+          if (oldC[field] !== newC[field]) {
+            this.lastChangedField = field;
+          }
+        }
+      },
+      deep: true,
+    },
+  },
 };
 </script>
 
 <style scoped>
 .form-title {
-  font-size: 20px;
+  font-sze: 20px;
   padding: 20px;
   width: 100%;
 }
@@ -155,5 +200,10 @@ input {
 .del-btn {
   border: rgb(255, 120, 120) solid 1px;
   color: rgb(255, 120, 120);
+}
+.return-btn,
+.back-btn {
+  border: rgb(255, 203, 203) solid 1px;
+  color: rgb(255, 203, 203);
 }
 </style>
