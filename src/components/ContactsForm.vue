@@ -6,11 +6,14 @@
         v-for="(field, idx) in Object.entries(newContact)"
         :key="idx"
       >
-        {{ field[0] }}:<input
-          type="text"
-          :placeholder="field[1]"
-          v-model="newContact[`${field[0]}`]"
-        />
+        <div v-if="field[0] !== 'id'">
+          {{ field[0] }}:
+          <input
+            type="text"
+            :placeholder="field[1]"
+            v-model="newContact[`${field[0]}`]"
+          />
+        </div>
       </div>
       <div class="custom-field" v-for="(custom, idx) in customs" :key="idx">
         <input type="text" placeholder="Title" v-model="custom[0]" />
