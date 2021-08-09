@@ -13,6 +13,13 @@
             :placeholder="field[1]"
             v-model="newContact[`${field[0]}`]"
           />
+          <button
+            class="btn del-btn"
+            v-if="field[0] !== 'name'"
+            @click="deleteField(`${field[0]}`)"
+          >
+            Delete
+          </button>
         </div>
       </div>
       <div class="custom-field" v-for="(custom, idx) in customs" :key="idx">
@@ -55,11 +62,32 @@ export default {
   },
   methods: {
     delCustom(id) {
-      console.log(id);
       this.customs.splice(id, 1);
     },
     addCustom() {
       this.customs.push(["", ""]);
+    },
+    deleteField(fieldName) {
+      delete this.newContact[fieldName];
+    },
+    saveContact() {
+      let savedContact = {};
+      if (!this.newContact.id) {
+        this.newContact.id = Date.now();
+      }
+      this.customs = this.customs.filter((field) => field[0] !== "");
+      if (this.newContact !== {} && this.customs !== []) {
+        savedContact = Object.fromEntries([
+          ...Object.entries(this.newContact),
+          ...this.customs,
+        ]);
+      } else if (this.newContact === {} && this.customs === []) {
+      } else if (this.customs === []) {
+        savedContact = this.newContact;
+      } else if (this.newContact === {}) {
+        savedContact = Object.fromEntries(this.customs);
+      }
+      this.$emit("saveContact", savedContact);
     },
   },
 };

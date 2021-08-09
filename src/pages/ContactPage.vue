@@ -1,6 +1,9 @@
 <template>
   <div class="container">
-    <contacts-form :contact="contact($route.params.id)"></contacts-form>
+    <contacts-form
+      :contact="contact($route.params.id)"
+      @saveContact="saveContact"
+    ></contacts-form>
   </div>
 </template>
 
@@ -14,6 +17,10 @@ export default {
   methods: {
     contact(id) {
       return this.$store.getters.contacts.find((c) => c.id == id);
+    },
+    saveContact(contact) {
+      this.$store.dispatch("editContact", contact);
+      this.$router.go(-1);
     },
   },
 };

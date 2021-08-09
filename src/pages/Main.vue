@@ -3,7 +3,11 @@
     <h1 class="header-title">Contact list</h1>
   </header>
   <create-btn v-if="!selectedCreateBtn" @click="switchForm"></create-btn>
-  <contacts-form v-else></contacts-form>
+  <contacts-form
+    v-else
+    :contact="defaultContact"
+    @saveContact="saveContact"
+  ></contacts-form>
   <contacts-list></contacts-list>
 </template>
 
@@ -19,10 +23,14 @@ export default {
     CreateBtn,
   },
   data() {
-    return { selectedCreateBtn: false };
+    return { selectedCreateBtn: false, defaultContact: { name: "" } };
   },
   methods: {
     switchForm() {
+      this.selectedCreateBtn = !this.selectedCreateBtn;
+    },
+    saveContact(contact) {
+      this.$store.dispatch("editContact", contact);
       this.selectedCreateBtn = !this.selectedCreateBtn;
     },
   },

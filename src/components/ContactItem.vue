@@ -1,7 +1,10 @@
 <template>
   <div class="card">
-    <div class="card-title">
+    <div class="card-title" v-if="contact.name || contact.lastname">
       {{ contact.name }} <strong>{{ contact.lastname }}</strong>
+    </div>
+    <div class="card-title" v-else>
+      Unnamed contact
     </div>
     <div>
       <button class="btn" @click="$router.push(`/contact/${contact.id}`)">

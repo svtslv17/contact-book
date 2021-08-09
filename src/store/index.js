@@ -6,7 +6,7 @@ export default createStore({
         {
           id: 1,
           name: "Jack",
-          lastname: "Jordfgdan",
+          lastname: "Peterson",
           number: "+375334569032",
           email: "test@test.com",
           address: "Minsk, Vyazov street 98-5",
@@ -14,7 +14,7 @@ export default createStore({
         {
           id: 2,
           name: "Kane",
-          lastname: "Jorfdgfdan",
+          lastname: "Roghendom",
           number: "+375334569032",
           email: "test@test.com",
           address: "Minsk, Vyazov street 98-5",
@@ -22,7 +22,7 @@ export default createStore({
         {
           id: 3,
           name: "Linack",
-          lastname: "dsdgordan",
+          lastname: "Fasterschoff",
           number: "+375334569032",
           email: "test@test.com",
           address: "Minsk, Vyazov street 98-5",
@@ -30,7 +30,7 @@ export default createStore({
         {
           id: 4,
           name: "Fonack",
-          lastname: "Jofdgfdgfdgfrdan",
+          lastname: "Inheritagen",
           number: "+375334569032",
           email: "test@test.com",
           address: "Minsk, Vyazov street 98-5",
@@ -45,6 +45,9 @@ export default createStore({
     delContact({ commit }, id) {
       commit("DEL_CONTACT", id);
     },
+    editContact({ commit }, contact) {
+      commit("EDIT_CONTACT", contact);
+    },
   },
   mutations: {
     ADD_CONTACT(state, contact) {
@@ -53,6 +56,10 @@ export default createStore({
     DEL_CONTACT(state, id) {
       let delIdx = state.contacts.findIndex((c) => c.id == id);
       state.contacts.splice(delIdx, 1);
+    },
+    EDIT_CONTACT(state, newContact) {
+      let Idx = state.contacts.findIndex((c) => c.id == newContact.id);
+      state.contacts.splice(Idx, 1, newContact);
     },
   },
   getters: {
