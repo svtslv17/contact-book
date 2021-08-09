@@ -3,10 +3,38 @@ export default createStore({
   state() {
     return {
       contacts: [
-        { id: 1, name: "Jack", lastname: "Jordfgdan" },
-        { id: 2, name: "Kane", lastname: "Jorfdgfdan" },
-        { id: 3, name: "Linack", lastname: "dsdgordan" },
-        { id: 4, name: "Fonack", lastname: "Jofdgfdgfdgfrdan" },
+        {
+          id: 1,
+          name: "Jack",
+          lastname: "Jordfgdan",
+          number: "+375334569032",
+          email: "test@test.com",
+          address: "Minsk, Vyazov street 98-5",
+        },
+        {
+          id: 2,
+          name: "Kane",
+          lastname: "Jorfdgfdan",
+          number: "+375334569032",
+          email: "test@test.com",
+          address: "Minsk, Vyazov street 98-5",
+        },
+        {
+          id: 3,
+          name: "Linack",
+          lastname: "dsdgordan",
+          number: "+375334569032",
+          email: "test@test.com",
+          address: "Minsk, Vyazov street 98-5",
+        },
+        {
+          id: 4,
+          name: "Fonack",
+          lastname: "Jofdgfdgfdgfrdan",
+          number: "+375334569032",
+          email: "test@test.com",
+          address: "Minsk, Vyazov street 98-5",
+        },
       ],
     };
   },

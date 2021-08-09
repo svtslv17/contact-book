@@ -2,44 +2,30 @@
   <header>
     <h1 class="header-title">Contact list</h1>
   </header>
-  <contacts-form></contacts-form>
+  <create-btn v-if="!selectedCreateBtn" @click="switchForm"></create-btn>
+  <contacts-form v-else></contacts-form>
   <contacts-list></contacts-list>
 </template>
 
 <script>
 import ContactsList from "@/components/ContactsList";
 import ContactsForm from "@/components/ContactsForm";
+import CreateBtn from "@/components/UI/CreateBtn.vue";
 
 export default {
   components: {
     ContactsList,
     ContactsForm,
+    CreateBtn,
   },
-  // created() {
-  // const contactsData = this.$store.state.contacts;
-  // if (contactsData) {
-  //   this.contacts = [...contactsData];
-  // }
-  // },
-  // methods: {
-  // addContact(contact) {
-  //   this.contacts = [...this.contacts, contact];
-  //   this.$store.commit("add", this.contacts);
-  // },
-  // deleteContact(id) {
-  //   let delIdx = this.contacts.findIndex((c) => c.id == id);
-  //   this.contacts.splice(delIdx, 1);
-  //   this.$store.commit("add", this.contacts);
-  // },
-  // },
-  // watch: {
-  //   "$store.contacts": {
-  //     handler(newContacts) {
-  //       console.log("store");
-  //     },
-  //     deep: true,
-  //   },
-  // },
+  data() {
+    return { selectedCreateBtn: false };
+  },
+  methods: {
+    switchForm() {
+      this.selectedCreateBtn = !this.selectedCreateBtn;
+    },
+  },
 };
 </script>
 
