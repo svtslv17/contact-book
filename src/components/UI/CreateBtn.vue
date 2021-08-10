@@ -6,7 +6,9 @@
 </template>
 
 <script>
-export default {};
+export default {
+  name: "create-btn",
+};
 </script>
 
 <style scoped>

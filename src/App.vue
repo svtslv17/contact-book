@@ -12,7 +12,7 @@
   margin: 0 auto;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Roboto";
+  font-family: "Roboto", sans-serif;
   font-style: normal;
 }
 h1,

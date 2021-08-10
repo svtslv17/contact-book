@@ -6,8 +6,8 @@
   <contacts-form
     v-else
     :contact="defaultContact"
-    @saveContact="saveContact"
     :resetBtns="false"
+    @saveContact="addContact"
   ></contacts-form>
   <contacts-list></contacts-list>
 </template>
@@ -30,7 +30,7 @@ export default {
     switchForm() {
       this.selectedCreateBtn = !this.selectedCreateBtn;
     },
-    saveContact(contact) {
+    addContact(contact) {
       this.$store.dispatch("addContact", contact);
       this.selectedCreateBtn = !this.selectedCreateBtn;
     },

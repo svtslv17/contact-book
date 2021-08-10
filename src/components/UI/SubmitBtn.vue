@@ -3,7 +3,9 @@
 </template>
 
 <script>
-export default {};
+export default {
+  name: "submit-btn",
+};
 </script>
 
 <style scoped>

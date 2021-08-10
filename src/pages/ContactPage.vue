@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <contacts-form
-      :contact="contact($route.params.id)"
+      :contact="giveContact($route.params.id)"
       @saveContact="saveContact"
       :resetBtns="true"
     ></contacts-form>
@@ -16,7 +16,7 @@ export default {
     ContactsForm,
   },
   methods: {
-    contact(id) {
+    giveContact(id) {
       return this.$store.getters.contacts.find((c) => c.id == id);
     },
     saveContact(contact) {

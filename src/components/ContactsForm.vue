@@ -1,12 +1,12 @@
 <template>
-  <pop-up :show="show" @yes="deleteField(fieldSet)" @no="show = false"
-    >Remove field <strong>{{ fieldSet }}</strong
-    >?</pop-up
-  >
-  <pop-up :show="showEdit" @yes="returnFields()" @no="showEdit = false"
-    >Return fields?</pop-up
-  >
   <form class="contact-form" @submit.prevent>
+    <pop-up :show="show" @yes="deleteField(fieldSet)" @no="show = false"
+      >Remove field <strong>{{ fieldSet }}</strong
+      >?</pop-up
+    >
+    <pop-up :show="showEdit" @yes="returnFields()" @no="showEdit = false"
+      >Return fields?</pop-up
+    >
     <div class="fields">
       <div v-if="resetBtns">
         <button class="btn return-btn" @click="showEdit = true">Return</button>
@@ -57,10 +57,7 @@
 </template>
 
 <script>
-import SubmitBtn from "@/components/UI/SubmitBtn.vue";
-import PopUp from "@/components/UI/PopUp.vue";
 export default {
-  components: { SubmitBtn, PopUp },
   props: {
     contact: {
       type: Object,
@@ -158,7 +155,7 @@ export default {
 
 <style scoped>
 .form-title {
-  font-sze: 20px;
+  font-size: 20px;
   padding: 20px;
   width: 100%;
 }

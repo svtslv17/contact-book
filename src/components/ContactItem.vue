@@ -25,11 +25,7 @@
 </template>
 
 <script>
-import PopUp from "@/components/UI/PopUp.vue";
 export default {
-  components: {
-    PopUp,
-  },
   props: {
     contact: {
       type: Object,
