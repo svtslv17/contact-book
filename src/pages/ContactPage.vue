@@ -1,11 +1,10 @@
 <template>
-  <div class="container">
-    <contacts-form
-      :contact="giveContact($route.params.id)"
-      @saveContact="saveContact"
-      :resetBtns="true"
-    ></contacts-form>
-  </div>
+  <header-title>Details</header-title>
+  <contacts-form
+    :contact="giveContact($route.params.id)"
+    @saveContact="saveContact"
+    :resetBtns="true"
+  ></contacts-form>
 </template>
 
 <script>
@@ -27,8 +26,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.container {
-  margin-top: 50px;
-}
-</style>
+<style scoped></style>

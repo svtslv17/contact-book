@@ -16,8 +16,8 @@ export default {
   props: {
     show: {
       type: Boolean,
-      required: false,
-      default: true,
+      required: true,
+      default: false,
     },
   },
   methods: {

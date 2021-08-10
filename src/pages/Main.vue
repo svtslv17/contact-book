@@ -1,7 +1,5 @@
 <template>
-  <header>
-    <h1 class="header-title">Contact list</h1>
-  </header>
+  <header-title>Contact list</header-title>
   <create-btn v-if="!selectedCreateBtn" @click="switchForm"></create-btn>
   <contacts-form
     v-else
