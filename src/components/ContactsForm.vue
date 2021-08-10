@@ -9,9 +9,9 @@
     >
     <div class="fields">
       <div v-if="resetBtns">
-        <button class="btn return-btn" @click="showEdit = true">Return</button>
+        <button class="btn red-btn" @click="showEdit = true">Return</button>
         <button
-          class="btn back-btn"
+          class="btn red-btn"
           @click="returnLastChanges"
           v-if="lastChangedField !== '' && firstFocusInput"
         >
@@ -23,8 +23,8 @@
         v-for="(field, idx) in Object.entries(newContact)"
         :key="idx"
       >
-        <div v-if="field[0] !== 'id'">
-          {{ field[0] }}:
+        <div class="field" v-if="field[0] !== 'id'">
+          <div>{{ field[0] }}:</div>
           <input
             type="text"
             :placeholder="field[1]"
@@ -32,7 +32,7 @@
             @input="firstFocusInput = true"
           />
           <button
-            class="btn del-btn"
+            class="btn red-btn"
             v-if="field[0] !== 'name'"
             @click="Confirmation(field[0])"
           >
@@ -44,7 +44,7 @@
         <input type="text" placeholder="Title" v-model="custom[0]" />
         :
         <input type="text" placeholder="Value" v-model="custom[1]" />
-        <button class="btn del-btn" @click="delCustom(idx)">
+        <button class="btn red-btn" @click="delCustom(idx)">
           Delete
         </button>
       </div>
@@ -183,10 +183,14 @@ export default {
   height: 20px;
   margin: 5px;
 }
-.custom-field {
+.custom-field,
+.fields__item {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+.fields__item {
+  width: 100%;
 }
 .field-title {
   margin-right: 10px;
@@ -203,22 +207,11 @@ export default {
 input {
   margin: 5px;
 }
-.add-btn {
-  margin: 0;
-  background-color: rgb(255, 227, 175);
-  border: 1px solid rgb(218, 178, 145);
-  width: 20%;
-}
 .custom-btn {
   margin: 8px 0;
 }
-.del-btn {
+.red-btn {
   border: rgb(255, 120, 120) solid 1px;
   color: rgb(255, 120, 120);
-}
-.return-btn,
-.back-btn {
-  border: rgb(255, 203, 203) solid 1px;
-  color: rgb(255, 203, 203);
 }
 </style>
