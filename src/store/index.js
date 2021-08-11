@@ -50,21 +50,41 @@ export default createStore({
     },
   },
   mutations: {
+    /**
+     * @description Добавление нового контакта в хранилище
+     * @param {Object} state Состояние хранилища
+     * @param {Object} contact Новый контакт
+     */
     ADD_CONTACT(state, contact) {
       if (contact.name !== "" && contact.name) {
         state.contacts = [...state.contacts, contact];
       }
     },
+    /**
+     * @description Удаление контакта из хранилища
+     * @param {Object} state Состояние хранилища
+     * @param {Object} contact Удаляемый контакт
+     */
     DEL_CONTACT(state, id) {
       let delIdx = state.contacts.findIndex((c) => c.id == id);
       state.contacts.splice(delIdx, 1);
     },
+    /**
+     * @description Редактирование контакта из хранилища
+     * @param {Object} state Состояние хранилища
+     * @param {Object} contact Отредактированный контакт
+     */
     EDIT_CONTACT(state, contact) {
       let editIdx = state.contacts.findIndex((c) => c.id === contact.id);
       state.contacts.splice(editIdx, 1, contact);
     },
   },
   getters: {
+    /**
+     * @description Возвращает массив контактов из хранилища
+     * @param {Object} state Состояние хранилища
+     * @returns Массив контактов
+     */
     contacts(state) {
       return state.contacts;
     },

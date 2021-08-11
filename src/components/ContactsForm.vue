@@ -14,12 +14,12 @@
       >Return fields?</app-pop-up
     >
     <div class="fields">
-      <div v-if="resetButtons">
+      <div v-if="hasResetButtons && isChangedField">
         <app-button-deny @click="isShownPopUpReturn = true"
           >Return</app-button-deny
         >
         <app-button-deny
-          v-if="lastChangedField !== '' && firstFocusInput"
+          v-if="lastChangedField !== ''"
           @click="returnLastChanges"
         >
           Step back
@@ -36,11 +36,11 @@
             type="text"
             :placeholder="field[1]"
             v-model="newContact[`${field[0]}`]"
-            @input="firstFocusInput = true"
+            @change="isChangedField = true"
           />
           <app-button-deny
             v-if="field[0] !== 'name'"
-            @click="Confirmation(field[0])"
+            @click="induceDeletePopUp(field[0])"
           >
             Delete
           </app-button-deny>
@@ -50,8 +50,8 @@
         <input type="text" placeholder="Title" v-model="custom[0]" />
         :
         <input type="text" placeholder="Value" v-model="custom[1]" />
-        <app-button-deny @click="delCustom(idx)">
-          Delete
+        <app-button-deny @click="removeCustom(idx)">
+          Remove
         </app-button-deny>
       </div>
       <app-button class="custom-btn" @click="addCustom">
@@ -64,70 +64,128 @@
 
 <script>
 export default {
+  /**
+   * @description Входные параметры формы контактной информации
+   * @param {Object} contact Контакт
+   * @param {Boolean} hasResetButtons Флаг наличия на форме кнопок управления изменениями контакта
+   */
   props: {
     contact: {
       type: Object,
       required: true,
     },
 
-    resetButtons: {
+    hasResetButtons: {
       type: Boolean,
       required: true,
       default: true,
     },
   },
+  /**
+   * @description Данные формы контактной информации
+   * @param {Object} newContact Контакт который форма будет преобразовывать
+   * @param {Array} customs Новые поля информации для контакта
+   * @param {String} lastChangedField  Последнее редактируемое собственное поле контакта
+   * @param {String} deletedFieldKey Имя ключа удаляемого поля из контакта
+   * @param {Boolean} isChangedField Флаг изменения собственного поля
+   * @param {Boolean} isShownPopUpDelete Флаг открытия модального окна удаления
+   * @param {Boolean} isShownPopUpReturn Флаг открытия модального окна отмены изменений
+   */
+  data() {
+    return {
+      newContact: {},
+      customs: [],
+      lastChangedField: "",
+      deletedFieldKey: "",
+      isChangedField: false,
+      isShownPopUpDelete: false,
+      isShownPopUpReturn: false,
+    };
+  },
+  /**
+   * Устанавливает информацию из редактируемого контакта в новый экземпляр
+   * и обнуляет поле измений
+   */
   mounted() {
     this.newContact = Object.assign({}, this.contact);
     this.lastChangedField = "";
   },
-  data() {
-    return {
-      newContact: {
-        name: "",
-        lastname: "",
-      },
-      customs: [],
-      lastChangedField: "",
-      firstFocusInput: false,
-      isShownPopUpDelete: false,
-      deletedFieldKey: "",
-      isShownPopUpReturn: false,
-    };
-  },
   methods: {
-    Confirmation(field) {
-      this.deletedFieldKey = field;
+    /**
+     * Инициировать вызов модального окна удаления поля,
+     * передавая имя ключа удаляемого поля контакта
+     * @param {String} fieldKey Имя ключа удаляемого поля контакта
+     */
+    induceDeletePopUp(fieldKey) {
+      this.deletedFieldKey = fieldKey;
       this.isShownPopUpDelete = true;
     },
-    delCustom(id) {
+    /**
+     * Убрать новое поле добавляемое к информации контакта
+     * @param {Number} id Id нового поля
+     */
+    removeCustom(id) {
       this.customs.splice(id, 1);
     },
+    /**
+     * Добавить новое поле добавляемое к информации контакта
+     */
     addCustom() {
       this.customs.push(["", ""]);
     },
+    /**
+     * Удалить старое поле контакта
+     * @param {String} fieldKey Имя ключа удаляемого поля контакта
+     */
     deleteField(fieldKey) {
       delete this.newContact[fieldKey];
       this.deletedFieldKey = "";
       this.isShownPopUpDelete = false;
     },
+    /**
+     * Вернуть поля контакта в исходное состояние
+     */
     returnFields() {
       this.newContact = Object.assign({}, this.contact);
       this.isShownPopUpReturn = false;
+      this.isChangedField = false;
     },
+    /**
+     * Отмена последнего внесенного изменения в поле контакта
+     */
     returnLastChanges() {
       this.newContact[this.lastChangedField] = this.contact[
         this.lastChangedField
       ];
     },
+    /**
+     * Сохранение готового обновленного/нового контакта в список контактов
+     */
     saveContact() {
       let savedContact = {};
+      /**
+       * Проверка на наличие обязательного поля "name" у контакта
+       * если контакт не назван, то изменения к контакту не применятся
+       * и форма вернет контакт с исходной информацией
+       */
       if (this.newContact.name === "") {
+        this.customs = [];
         this.newContact = Object.assign({}, this.contact);
       }
+      /**
+       * Добавить id контакту если его нет
+       */
       if (!this.newContact.id) {
         this.newContact.id = Date.now();
       }
+      /**
+       * Убрать пустые новые поля
+       */
       this.customs = this.customs.filter((field) => field[0] !== "");
+      /**
+       * Объединение обновлений контакта и новых полей(при их наличии)
+       * в готовый новый контакт
+       */
       if (this.newContact !== {} && this.customs !== []) {
         savedContact = Object.fromEntries([
           ...Object.entries(this.newContact),
@@ -136,15 +194,24 @@ export default {
       } else if (this.customs === []) {
         savedContact = this.newContact;
       }
+      /**
+       * Передача сформированного контакта родительскому компоненту
+       */
       this.$emit("saveContact", savedContact);
     },
   },
   computed: {
+    /**
+     * Оборачиваем предыдущее состояние контакта для работы watch-наблюдателя
+     */
     computedNewContact: function() {
       return Object.assign({}, this.newContact);
     },
   },
   watch: {
+    /**
+     * Поиск измененных полей в контакте
+     */
     computedNewContact: {
       handler(newC, oldC) {
         for (let field in oldC) {

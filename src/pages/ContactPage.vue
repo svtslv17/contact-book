@@ -3,7 +3,7 @@
   <contacts-form
     :contact="findContact($route.params.id)"
     @saveContact="editContact"
-    :resetButtons="true"
+    :hasResetButtons="true"
   ></contacts-form>
 </template>
 
@@ -15,11 +15,26 @@ export default {
     ContactsForm,
   },
   methods: {
+    /**
+     * @description Ищет контакт в хранилище по id
+     *  @param {Number} id Id контакта
+     * @returns Контакт
+     */
     findContact(id) {
       return this.$store.getters.contacts.find((c) => c.id == id);
     },
+    /**
+     * @description Вызывает действие редактирования контакта в хранилище
+     *  @param {Object} contact Отредактированный контакт
+     */
     editContact(contact) {
       this.$store.dispatch("editContact", contact);
+      this.goMainPage();
+    },
+    /**
+     * @description Возвращает приложение на страницу списка контактов
+     */
+    goMainPage() {
       this.$router.go(-1);
     },
   },

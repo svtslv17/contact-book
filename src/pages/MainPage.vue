@@ -1,13 +1,13 @@
 <template>
   <app-header-title>Contact list</app-header-title>
   <the-create-button
-    v-if="!onPushCreateButton"
+    v-if="!onClickCreateButton"
     @click="switchForm"
   ></the-create-button>
   <contacts-form
     v-else
     :contact="defaultContact"
-    :resetButtons="false"
+    :hasResetButtons="false"
     @saveContact="addContact"
   ></contacts-form>
   <contacts-list></contacts-list>
@@ -22,21 +22,33 @@ export default {
     ContactsList,
     ContactsForm,
   },
+  /**
+   * @description Данные страницы
+   * @param {Boolean} onClickCreateButton Флаг нажатия кнопки "Создать"
+   * @param {Object} defaultContact Создаваемый объект по умолчанию
+   */
   data() {
     return {
-      onPushCreateButton: false,
+      onClickCreateButton: false,
       defaultContact: {
         name: "",
       },
     };
   },
   methods: {
+    /**
+     * Переключает флаг onClickCreateButton
+     * который открывает форму создания контакта
+     */
     switchForm() {
-      this.onPushCreateButton = !this.onPushCreateButton;
+      this.onClickCreateButton = !this.onClickCreateButton;
     },
+    /**
+     * Вызывает действие в хранилище по добавлению нового контакта
+     */
     addContact(contact) {
       this.$store.dispatch("addContact", contact);
-      this.onPushCreateButton = !this.onPushCreateButton;
+      this.switchForm();
     },
   },
 };

@@ -23,12 +23,20 @@
 
 <script>
 export default {
+  /**
+   * @description Входные параметры компонента контакта
+   * @param {Object} contact контакт
+   */
   props: {
     contact: {
       type: Object,
       required: true,
     },
   },
+  /**
+   * @description Данные компонента контакта
+   * @param {Boolean} show Флаг на открытие модального окна удаления контакта
+   */
   data() {
     return { show: false };
   },
