@@ -3,8 +3,8 @@
     <div class="pop-up__content">
       <p class="content"><slot></slot></p>
       <div class="pop-up__btns">
-        <button class="btn" @click="yes">Yes</button>
-        <button @click="no" class="btn no-btn">No</button>
+        <app-button @click="yes">Yes</app-button>
+        <app-button-deny @click="no">No</app-button-deny>
       </div>
     </div>
   </div>
@@ -12,7 +12,7 @@
 
 <script>
 export default {
-  name: "pop-up",
+  name: "app-pop-up",
   props: {
     show: {
       type: Boolean,
@@ -32,9 +32,6 @@ export default {
 </script>
 
 <style scoped>
-.no-btn {
-  border-color: rgb(255, 124, 124);
-}
 .pop-up {
   top: 0;
   left: 0;

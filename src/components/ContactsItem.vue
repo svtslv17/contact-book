@@ -1,24 +1,21 @@
 <template>
   <div class="card">
-    <div class="card-title" v-if="contact.name || contact.lastname">
+    <div class="card-title">
       {{ contact.name }} <strong>{{ contact.lastname }}</strong>
     </div>
-    <div class="card-title" v-else>
-      Unnamed contact
-    </div>
     <div>
-      <button class="btn" @click="$router.push(`/contact/${contact.id}`)">
+      <app-button @click="$router.push(`/contact/${contact.id}`)">
         Details
-      </button>
-      <button class="btn" @click="show = true">
+      </app-button>
+      <app-button-deny @click="show = true">
         Delete
-      </button>
-      <pop-up
+      </app-button-deny>
+      <app-pop-up
         :show="show"
         @yes="$store.dispatch('delContact', contact.id)"
         @no="show = false"
         >Do you really want to remove <strong>{{ contact.name }}</strong> from
-        your contacts?</pop-up
+        your contacts?</app-pop-up
       >
     </div>
   </div>

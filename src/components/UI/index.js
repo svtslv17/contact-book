@@ -1,6 +1,14 @@
-import SimpleBtn from "@/components/UI/SimpleBtn";
-import PopUp from "@/components/UI/PopUp";
-import SubmitBtn from "@/components/UI/SubmitBtn";
-import CreateBtn from "@/components/UI/CreateBtn";
-import HeaderTitle from "@/components/UI/HeaderTitle";
-export default [SimpleBtn, PopUp, SubmitBtn, CreateBtn, HeaderTitle];
+import AppButton from "@/components/UI/AppButton";
+import AppPopUp from "@/components/UI/AppPopUp";
+import TheSaveButton from "@/components/UI/TheSaveButton";
+import TheCreateButton from "@/components/UI/TheCreateButton";
+import AppHeaderTitle from "@/components/UI/AppHeaderTitle";
+import AppButtonDeny from "@/components/UI/AppButtonDeny";
+export default [
+  AppButton,
+  AppPopUp,
+  TheSaveButton,
+  TheCreateButton,
+  AppHeaderTitle,
+  AppButtonDeny,
+];

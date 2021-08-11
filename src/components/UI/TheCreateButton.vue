@@ -1,18 +1,18 @@
 <template>
-  <button class="create-btn">
-    <img src="@/img/plus.svg" alt="create contact" class="create-btn__img" />
+  <button class="create-button">
+    <img src="@/img/plus.svg" alt="create contact" class="create-button__img" />
     Create contact
   </button>
 </template>
 
 <script>
 export default {
-  name: "create-btn",
+  name: "the-create-button",
 };
 </script>
 
 <style scoped>
-.create-btn {
+.create-button {
   padding: 15px;
   border: 1px solid rgb(218, 178, 145);
   width: 95%;
@@ -23,14 +23,14 @@ export default {
   border-radius: 5px;
   margin-bottom: 10px;
 }
-.create-btn {
+.create-button {
   background-color: rgb(255, 227, 175);
   font-size: 20px;
   display: flex;
   flex-direction: row;
   justify-content: center;
 }
-.create-btn__img {
+.create-button__img {
   width: 20px;
   height: 20px;
   margin: 5px;

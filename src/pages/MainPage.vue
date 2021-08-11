@@ -1,10 +1,13 @@
 <template>
-  <header-title>Contact list</header-title>
-  <create-btn v-if="!selectedCreateBtn" @click="switchForm"></create-btn>
+  <app-header-title>Contact list</app-header-title>
+  <the-create-button
+    v-if="!onPushCreateButton"
+    @click="switchForm"
+  ></the-create-button>
   <contacts-form
     v-else
     :contact="defaultContact"
-    :resetBtns="false"
+    :resetButtons="false"
     @saveContact="addContact"
   ></contacts-form>
   <contacts-list></contacts-list>
@@ -13,24 +16,27 @@
 <script>
 import ContactsList from "@/components/ContactsList";
 import ContactsForm from "@/components/ContactsForm";
-import CreateBtn from "@/components/UI/CreateBtn.vue";
 
 export default {
   components: {
     ContactsList,
     ContactsForm,
-    CreateBtn,
   },
   data() {
-    return { selectedCreateBtn: false, defaultContact: { name: "" } };
+    return {
+      onPushCreateButton: false,
+      defaultContact: {
+        name: "",
+      },
+    };
   },
   methods: {
     switchForm() {
-      this.selectedCreateBtn = !this.selectedCreateBtn;
+      this.onPushCreateButton = !this.onPushCreateButton;
     },
     addContact(contact) {
       this.$store.dispatch("addContact", contact);
-      this.selectedCreateBtn = !this.selectedCreateBtn;
+      this.onPushCreateButton = !this.onPushCreateButton;
     },
   },
 };

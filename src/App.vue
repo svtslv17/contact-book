@@ -20,7 +20,6 @@ h2,
 h3 {
   font-weight: normal;
 }
-.btn,
 input {
   padding: 5px;
   margin-left: 15px;
@@ -29,14 +28,6 @@ input {
   border: 1px solid rgb(126, 235, 158);
   border-radius: 5px;
   font-size: 16px;
-}
-
-.header-title {
-  font-size: 25px;
-  width: 95%;
-  padding: 20px;
-  text-align: left;
-  font-weight: bold;
 }
 [v-cloak] {
   display: none;

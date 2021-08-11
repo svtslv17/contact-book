@@ -1,18 +1,18 @@
 <template>
   <div class="contacts">
-    <contact-item
+    <contacts-item
       v-for="contact in $store.getters.contacts"
-      v-bind:key="contact.id"
+      :key="contact.id"
       :contact="contact"
     >
-    </contact-item>
+    </contacts-item>
   </div>
 </template>
 
 <script>
-import ContactItem from "./ContactItem.vue";
+import ContactsItem from "./ContactsItem.vue";
 export default {
-  components: { ContactItem },
+  components: { ContactsItem },
 };
 </script>
 

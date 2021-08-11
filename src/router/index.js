@@ -1,13 +1,12 @@
 import { createWebHistory, createRouter } from "vue-router";
-import Main from "@/pages/Main.vue";
+import MainPage from "@/pages/MainPage.vue";
 import ContactPage from "@/pages/ContactPage.vue";
-import ContactItem from "@/components/ContactItem.vue";
 
 const routes = [
   {
     path: "/",
-    name: "Main",
-    component: Main,
+    name: "MainPage",
+    component: MainPage,
   },
   {
     path: "/contact/:id",

@@ -51,15 +51,17 @@ export default createStore({
   },
   mutations: {
     ADD_CONTACT(state, contact) {
-      state.contacts = [...state.contacts, contact];
+      if (contact.name !== "" && contact.name) {
+        state.contacts = [...state.contacts, contact];
+      }
     },
     DEL_CONTACT(state, id) {
       let delIdx = state.contacts.findIndex((c) => c.id == id);
       state.contacts.splice(delIdx, 1);
     },
-    EDIT_CONTACT(state, newContact) {
-      let Idx = state.contacts.findIndex((c) => c.id == newContact.id);
-      state.contacts.splice(Idx, 1, newContact);
+    EDIT_CONTACT(state, contact) {
+      let editIdx = state.contacts.findIndex((c) => c.id === contact.id);
+      state.contacts.splice(editIdx, 1, contact);
     },
   },
   getters: {

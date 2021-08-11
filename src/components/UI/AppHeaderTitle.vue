@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: "header-title",
+  name: "app-header-title",
 };
 </script>
 

@@ -1,20 +1,21 @@
 <template>
-  <button class="btn"><slot></slot></button>
+  <button class="button-deny"><slot></slot></button>
 </template>
 
 <script>
 export default {
-  name: "simple-btn",
+  name: "app-button-deny",
 };
 </script>
 
 <style scoped>
-.btn {
+.button-deny {
   padding: 5px;
   margin-left: 15px;
   outline: none;
   background-color: #fff;
-  border: 1px solid rgb(126, 235, 158);
+  border: rgb(255, 120, 120) solid 1px;
+  color: rgb(255, 120, 120);
   border-radius: 5px;
   font-size: 16px;
 }

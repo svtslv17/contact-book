@@ -1,22 +1,29 @@
 <template>
   <form class="contact-form" @submit.prevent>
-    <pop-up :show="show" @yes="deleteField(fieldSet)" @no="show = false"
-      >Remove field <strong>{{ fieldSet }}</strong
-      >?</pop-up
+    <app-pop-up
+      :show="isShownPopUpDelete"
+      @yes="deleteField(deletedFieldKey)"
+      @no="isShownPopUpDelete = false"
+      >Remove field <strong>{{ deletedFieldKey }}</strong
+      >?</app-pop-up
     >
-    <pop-up :show="showEdit" @yes="returnFields()" @no="showEdit = false"
-      >Return fields?</pop-up
+    <app-pop-up
+      :show="isShownPopUpReturn"
+      @yes="returnFields()"
+      @no="isShownPopUpReturn = false"
+      >Return fields?</app-pop-up
     >
     <div class="fields">
-      <div v-if="resetBtns">
-        <button class="btn red-btn" @click="showEdit = true">Return</button>
-        <button
-          class="btn red-btn"
-          @click="returnLastChanges"
+      <div v-if="resetButtons">
+        <app-button-deny @click="isShownPopUpReturn = true"
+          >Return</app-button-deny
+        >
+        <app-button-deny
           v-if="lastChangedField !== '' && firstFocusInput"
+          @click="returnLastChanges"
         >
           Step back
-        </button>
+        </app-button-deny>
       </div>
       <div
         class="fields__item"
@@ -31,28 +38,27 @@
             v-model="newContact[`${field[0]}`]"
             @input="firstFocusInput = true"
           />
-          <button
-            class="btn red-btn"
+          <app-button-deny
             v-if="field[0] !== 'name'"
             @click="Confirmation(field[0])"
           >
             Delete
-          </button>
+          </app-button-deny>
         </div>
       </div>
       <div class="custom-field" v-for="(custom, idx) in customs" :key="idx">
         <input type="text" placeholder="Title" v-model="custom[0]" />
         :
         <input type="text" placeholder="Value" v-model="custom[1]" />
-        <button class="btn red-btn" @click="delCustom(idx)">
+        <app-button-deny @click="delCustom(idx)">
           Delete
-        </button>
+        </app-button-deny>
       </div>
-      <button class="btn custom-btn" @click="addCustom">
+      <app-button class="custom-btn" @click="addCustom">
         Add custom field
-      </button>
+      </app-button>
     </div>
-    <submit-btn @click="saveContact">Save Contact</submit-btn>
+    <the-save-button @click="saveContact"></the-save-button>
   </form>
 </template>
 
@@ -63,7 +69,8 @@ export default {
       type: Object,
       required: true,
     },
-    resetBtns: {
+
+    resetButtons: {
       type: Boolean,
       required: true,
       default: true,
@@ -82,15 +89,15 @@ export default {
       customs: [],
       lastChangedField: "",
       firstFocusInput: false,
-      show: false,
-      fieldSet: "",
-      showEdit: false,
+      isShownPopUpDelete: false,
+      deletedFieldKey: "",
+      isShownPopUpReturn: false,
     };
   },
   methods: {
     Confirmation(field) {
-      this.fieldSet = field;
-      this.show = true;
+      this.deletedFieldKey = field;
+      this.isShownPopUpDelete = true;
     },
     delCustom(id) {
       this.customs.splice(id, 1);
@@ -98,14 +105,14 @@ export default {
     addCustom() {
       this.customs.push(["", ""]);
     },
-    deleteField(fieldName) {
-      delete this.newContact[fieldName];
-      this.fieldSet = "";
-      this.show = false;
+    deleteField(fieldKey) {
+      delete this.newContact[fieldKey];
+      this.deletedFieldKey = "";
+      this.isShownPopUpDelete = false;
     },
     returnFields() {
       this.newContact = Object.assign({}, this.contact);
-      this.showEdit = false;
+      this.isShownPopUpReturn = false;
     },
     returnLastChanges() {
       this.newContact[this.lastChangedField] = this.contact[
@@ -114,6 +121,9 @@ export default {
     },
     saveContact() {
       let savedContact = {};
+      if (this.newContact.name === "") {
+        this.newContact = Object.assign({}, this.contact);
+      }
       if (!this.newContact.id) {
         this.newContact.id = Date.now();
       }
@@ -123,17 +133,13 @@ export default {
           ...Object.entries(this.newContact),
           ...this.customs,
         ]);
-      } else if (this.newContact === {} && this.customs === []) {
       } else if (this.customs === []) {
         savedContact = this.newContact;
-      } else if (this.newContact === {}) {
-        savedContact = Object.fromEntries(this.customs);
       }
       this.$emit("saveContact", savedContact);
     },
   },
   computed: {
-    // watch the entire as a new object
     computedNewContact: function() {
       return Object.assign({}, this.newContact);
     },
@@ -209,9 +215,5 @@ input {
 }
 .custom-btn {
   margin: 8px 0;
-}
-.red-btn {
-  border: rgb(255, 120, 120) solid 1px;
-  color: rgb(255, 120, 120);
 }
 </style>
